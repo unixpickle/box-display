@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/unixpickle/essentials"
@@ -23,7 +22,6 @@ func NewPenguin() *Penguin {
 	// Center the mesh on x/y, start it at z=0.
 	mesh = mesh.Translate(mesh.Min().Mid(mesh.Max()).Scale(-1))
 	mesh = mesh.Translate(model3d.Z(-mesh.Min().Z))
-	fmt.Println(mesh.Min(), mesh.Max())
 	return &Penguin{
 		Solid: model3d.NewColliderSolid(model3d.MeshToCollider(mesh)),
 	}

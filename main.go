@@ -1,16 +1,27 @@
 package main
 
 import (
+	"log"
+
 	"github.com/unixpickle/model3d/model3d"
 	"github.com/unixpickle/model3d/render3d"
 )
 
 func main() {
-	penguin := NewPenguin()
+	log.Println("Creating object...")
+	obj := Join(
+		NewPenguin(),
+		NewFrame(),
+	)
 
-	mesh := model3d.MarchingCubesSearch(penguin, 0.01, 8)
-	SaveMesh(mesh, penguin)
-	RenderMesh(mesh, penguin)
+	log.Println("Creating mesh...")
+	mesh := model3d.MarchingCubesSearch(obj, 0.03, 8)
+
+	log.Println("Saving...")
+	SaveMesh(mesh, obj)
+
+	log.Println("Rendering...")
+	RenderMesh(mesh, obj)
 }
 
 func SaveMesh(mesh *model3d.Mesh, o Object) {
