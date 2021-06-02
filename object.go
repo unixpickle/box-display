@@ -29,6 +29,10 @@ func Transform(t model3d.Transform, obj Object) Object {
 	}
 }
 
+func Translate(obj Object, offset model3d.Coord3D) Object {
+	return Transform(&model3d.Translate{Offset: offset}, obj)
+}
+
 func (t *transformedObject) Color(c model3d.Coord3D) render3d.Color {
 	return t.obj.Color(t.invTransform.Apply(c))
 }

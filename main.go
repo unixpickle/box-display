@@ -10,18 +10,19 @@ import (
 func main() {
 	log.Println("Creating object...")
 	obj := Join(
-		NewPenguin(),
+		Translate(NewPenguin(), model3d.X(-1)),
 		NewFrame(),
+		Translate(NewNugget(), model3d.X(1)),
 	)
 
 	log.Println("Creating mesh...")
 	mesh := model3d.MarchingCubesSearch(obj, 0.03, 8)
 
-	log.Println("Saving...")
-	SaveMesh(mesh, obj)
-
 	log.Println("Rendering...")
 	RenderMesh(mesh, obj)
+
+	log.Println("Saving...")
+	SaveMesh(mesh, obj)
 }
 
 func SaveMesh(mesh *model3d.Mesh, o Object) {
