@@ -7,6 +7,8 @@ import (
 	"github.com/unixpickle/model3d/render3d"
 )
 
+const Production = false
+
 func main() {
 	log.Println("Creating object...")
 	obj := Join(
@@ -16,7 +18,11 @@ func main() {
 	)
 
 	log.Println("Creating mesh...")
-	mesh := model3d.MarchingCubesSearch(obj, 0.03, 8)
+	eps := 0.03
+	if Production {
+		eps = 0.01
+	}
+	mesh := model3d.MarchingCubesSearch(obj, eps, 8)
 
 	log.Println("Rendering...")
 	RenderMesh(mesh, obj)
