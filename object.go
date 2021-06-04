@@ -29,8 +29,16 @@ func Transform(t model3d.Transform, obj Object) Object {
 	}
 }
 
+func Scale(obj Object, s float64) Object {
+	return Transform(&model3d.Scale{Scale: s}, obj)
+}
+
 func Translate(obj Object, offset model3d.Coord3D) Object {
 	return Transform(&model3d.Translate{Offset: offset}, obj)
+}
+
+func RotateZ(obj Object, angle float64) Object {
+	return Transform(model3d.Rotation(model3d.Z(1), angle), obj)
 }
 
 func (t *transformedObject) Color(c model3d.Coord3D) render3d.Color {

@@ -21,11 +21,11 @@ func NewFrame() Frame {
 		Solid: &model3d.SubtractedSolid{
 			Positive: model3d.NewRect(
 				model3d.XYZ(-2.5, -0.8, -FrameThickness),
-				model3d.XYZ(2.5, 0.8, 5.0),
+				model3d.XYZ(2.5, 0.8, 4.0),
 			),
 			Negative: model3d.NewRect(
-				model3d.XYZ(-2.5+FrameThickness, -0.8+FrameThickness, 0.0),
-				model3d.XYZ(2.5-FrameThickness, 0.81, 5.0-FrameThickness),
+				model3d.XYZ(-2.5+FrameThickness, -0.81, 0.0),
+				model3d.XYZ(2.5-FrameThickness, 0.8-FrameThickness, 4.0-FrameThickness),
 			),
 		},
 	}

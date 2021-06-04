@@ -12,9 +12,13 @@ const Production = false
 func main() {
 	log.Println("Creating object...")
 	obj := Join(
-		Translate(NewPenguin(), model3d.X(-1)),
+		Translate(RotateZ(NewPenguin(), 0.1), model3d.X(-1.3)),
 		NewFrame(),
-		Translate(NewNugget(), model3d.X(1)),
+		Translate(
+			RotateZ(Scale(Translate(NewNugget(), model3d.Z(0.05)), 1.4), -0.1),
+			model3d.X(1.4),
+		),
+		Translate(NewSun(), model3d.XYZ(1.0, 0.6, 3.0)),
 	)
 
 	log.Println("Creating mesh...")
