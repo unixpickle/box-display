@@ -52,11 +52,13 @@ type joinedObject struct {
 	model3d.Solid
 	objects []Object
 	sdfs    []model3d.SDF
+	bounds  []*model3d.Rect
 }
 
 func Join(objs ...Object) Object {
 	js := make(model3d.JoinedSolid, len(objs))
 	sdfs := make([]model3d.SDF, len(objs))
+	bounds := make([]*model3d.Rect, len(objs))
 	for i, obj := range objs {
 		js[i] = obj
 		size := obj.Max().Sub(obj.Min())
@@ -67,11 +69,13 @@ func Join(objs ...Object) Object {
 		eps := math.Max(size.X, math.Max(size.Y, size.Z)) * prec
 		mesh := model3d.MarchingCubesSearch(obj, eps, 8)
 		sdfs[i] = model3d.MeshToSDF(mesh)
+		bounds[i] = model3d.NewRect(mesh.Min(), mesh.Max())
 	}
 	return &joinedObject{
 		Solid:   js,
 		objects: objs,
 		sdfs:    sdfs,
+		bounds:  bounds,
 	}
 }
 
@@ -79,6 +83,10 @@ func (j *joinedObject) Color(c model3d.Coord3D) render3d.Color {
 	maxSDF := math.Inf(-1)
 	var closest Object
 	for i, obj := range j.objects {
+		// Eliminate far away bounds before checking SDF.
+		if j.bounds[i].SDF(c) < maxSDF {
+			continue
+		}
 		sdf := j.sdfs[i].SDF(c)
 		if sdf > maxSDF {
 			maxSDF = sdf

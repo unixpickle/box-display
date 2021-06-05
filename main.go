@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"math"
 
 	"github.com/unixpickle/model3d/model3d"
 	"github.com/unixpickle/model3d/render3d"
@@ -31,11 +32,52 @@ func main() {
 	}
 	mesh := model3d.MarchingCubesSearch(obj, eps, 8)
 
+	log.Println("Reducing frame triangles...")
+	prev := len(mesh.TriangleSlice())
+	mesh = ReduceFrameMesh(mesh, eps*2)
+	post := len(mesh.TriangleSlice())
+	log.Printf("Went from %d -> %d triangles", prev, post)
+
 	log.Println("Rendering...")
 	RenderMesh(mesh, obj)
 
 	log.Println("Saving...")
 	SaveMesh(mesh, obj)
+}
+
+func ReduceFrameMesh(mesh *model3d.Mesh, eps float64) *model3d.Mesh {
+	frame := NewFrame()
+	frameMesh := model3d.MarchingCubesSearch(frame, eps, 8)
+	frameSDF := model3d.MeshToSDF(frameMesh)
+
+	filterPoints := map[model3d.Coord3D]bool{}
+	mesh.Iterate(func(t *model3d.Triangle) {
+		for _, c := range t {
+			if math.Abs(frameSDF.SDF(c)) < eps {
+				filterPoints[c] = true
+			}
+		}
+	})
+	mesh.Iterate(func(t *model3d.Triangle) {
+		for _, s := range t.Segments() {
+			if frame.Color(s[0]) != frame.Color(s[1]) {
+				for _, p := range s {
+					delete(filterPoints, p)
+				}
+			}
+		}
+	})
+
+	d := &model3d.Decimator{
+		FeatureAngle:     0.01,
+		BoundaryDistance: 1e-5,
+		PlaneDistance:    1e-5,
+		FilterFunc: func(c model3d.Coord3D) bool {
+			return filterPoints[c]
+		},
+	}
+	mesh = d.Decimate(mesh)
+	return mesh
 }
 
 func SaveMesh(mesh *model3d.Mesh, o Object) {
