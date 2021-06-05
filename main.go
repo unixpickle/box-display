@@ -13,6 +13,7 @@ const Production = false
 func main() {
 	log.Println("Creating object...")
 	obj := Join(
+		NewFlower(),
 		Translate(RotateZ(NewPenguin(), 0.1), model3d.X(-1.3)),
 		NewFrame(),
 		Translate(
