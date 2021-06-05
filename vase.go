@@ -10,11 +10,13 @@ import (
 
 const (
 	VaseColorEpsilon = 0.02
-	VaseHoleRadius   = 0.22
+	VaseHoleInset    = 0.22
+	VaseHoleZ        = 0.9
 )
 
 type Vase struct {
 	model3d.Solid
+	holeRadius float64
 }
 
 func NewVase() *Vase {
@@ -31,22 +33,28 @@ func NewVase() *Vase {
 			return math.Abs(c.X) < bezier.EvalX(c.Y)
 		},
 	)
+	holeSolid2d := model2d.CheckedFuncSolid(
+		model2d.XY(0, VaseHoleZ),
+		model2d.XY(1.0, 1.0),
+		func(c model2d.Coord) bool {
+			return math.Abs(c.X) < bezier.EvalX(c.Y)-VaseHoleInset
+		},
+	)
 	return &Vase{
 		Solid: &model3d.SubtractedSolid{
 			Positive: model3d.RevolveSolid(solid2d, model3d.Z(1)),
-			Negative: &model3d.Cylinder{
-				P1:     model3d.Z(0.9),
-				P2:     model3d.Z(1.1),
-				Radius: VaseHoleRadius,
-			},
+			Negative: model3d.RevolveSolid(holeSolid2d, model3d.Z(1)),
 		},
+		holeRadius: bezier.EvalX(VaseHoleZ) - VaseHoleInset,
 	}
 }
 
 func (v *Vase) Color(c model3d.Coord3D) render3d.Color {
-	if c.XY().Norm() <= VaseHoleRadius && math.Abs(c.Z-0.9) < VaseColorEpsilon {
+	if c.XY().Norm() <= v.holeRadius && math.Abs(c.Z-VaseHoleZ) < VaseColorEpsilon {
 		// Dirt color.
 		return render3d.NewColorRGB(0.29, 0.23, 0.0)
+	} else {
+		// Clay color.
+		return render3d.NewColorRGB(0.74, 0.38, 0.26)
 	}
-	return render3d.NewColorRGB(float64(0x65)/0xff, float64(0xbc)/0xff, float64(0xd4)/0xff)
 }
