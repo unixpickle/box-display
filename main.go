@@ -18,8 +18,10 @@ func main() {
 			RotateZ(Scale(Translate(NewNugget(), model3d.Z(0.05)), 1.4), -0.1),
 			model3d.X(1.4),
 		),
-		Translate(NewSun(), model3d.XYZ(1.0, 0.6, 3.0)),
+		Translate(NewSun(), model3d.XYZ(1.5, 0.6, 3.0)),
 		NewVase(),
+		Translate(NewCloud("models/cloud/cloud2.png"), model3d.XYZ(-1.5, 0.6, 3.2)),
+		Translate(NewCloud("models/cloud/cloud1.png"), model3d.XYZ(0.1, 0.6, 2.7)),
 	)
 
 	log.Println("Creating mesh...")
@@ -48,5 +50,20 @@ func RenderMesh(mesh *model3d.Mesh, o Object) {
 	colorFunc := func(c model3d.Coord3D, rc model3d.RayCollision) render3d.Color {
 		return o.Color(c)
 	}
-	render3d.SaveRandomGrid("rendering.png", mesh, 3, 3, 400, colorFunc)
+	render3d.SaveRendering(
+		"rendering1.png",
+		mesh,
+		model3d.XYZ(2.5, -8.0, 2.0),
+		500,
+		500,
+		colorFunc,
+	)
+	render3d.SaveRendering(
+		"rendering2.png",
+		mesh,
+		model3d.XYZ(-2.5, -8.0, 2.0),
+		500,
+		500,
+		colorFunc,
+	)
 }
