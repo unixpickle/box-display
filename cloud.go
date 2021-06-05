@@ -20,7 +20,11 @@ func NewCloud(imageName string) *Cloud {
 
 	sdf2d := model2d.MeshToSDF(mesh2d)
 	hm := toolbox3d.NewHeightMap(sdf2d.Min(), sdf2d.Max(), 5000)
-	hm.AddSpheresSDF(sdf2d, 2000, 0.04, 0.13)
+	if Production {
+		hm.AddSpheresSDF(sdf2d, 2000, 0.04, 0.13)
+	} else {
+		hm.AddSpheresSDF(sdf2d, 500, 0.04, 0.13)
+	}
 	fullSolid := toolbox3d.HeightMapToSolid(hm)
 
 	// Cut off bottom to make it flatter.

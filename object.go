@@ -7,7 +7,10 @@ import (
 	"github.com/unixpickle/model3d/render3d"
 )
 
-const joinColorPrec = 0.01
+const (
+	joinColorPrecDev  = 0.015
+	joinColorPrecProd = 0.05
+)
 
 type Object interface {
 	model3d.Solid
@@ -57,7 +60,11 @@ func Join(objs ...Object) Object {
 	for i, obj := range objs {
 		js[i] = obj
 		size := obj.Max().Sub(obj.Min())
-		eps := math.Max(size.X, math.Max(size.Y, size.Z)) * joinColorPrec
+		prec := joinColorPrecDev
+		if Production {
+			prec = joinColorPrecProd
+		}
+		eps := math.Max(size.X, math.Max(size.Y, size.Z)) * prec
 		mesh := model3d.MarchingCubesSearch(obj, eps, 8)
 		sdfs[i] = model3d.MeshToSDF(mesh)
 	}

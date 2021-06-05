@@ -50,20 +50,24 @@ func RenderMesh(mesh *model3d.Mesh, o Object) {
 	colorFunc := func(c model3d.Coord3D, rc model3d.RayCollision) render3d.Color {
 		return o.Color(c)
 	}
+	res := 512
+	if Production {
+		res = 1024
+	}
 	render3d.SaveRendering(
 		"rendering1.png",
 		mesh,
 		model3d.XYZ(2.5, -8.0, 2.0),
-		500,
-		500,
+		res,
+		res,
 		colorFunc,
 	)
 	render3d.SaveRendering(
 		"rendering2.png",
 		mesh,
-		model3d.XYZ(-2.5, -8.0, 2.0),
-		500,
-		500,
+		model3d.XYZ(-2.5, -8.0, 3.0),
+		res,
+		res,
 		colorFunc,
 	)
 }

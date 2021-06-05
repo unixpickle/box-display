@@ -38,7 +38,7 @@ func NewNugget() *Nugget {
 	gen := rand.New(rand.NewSource(0))
 	colorMapping := map[model3d.Coord3D]render3d.Color{}
 	var centers []model3d.Coord3D
-	for i := 0; i < 500; i++ {
+	for i := 0; i < 3000; i++ {
 		var point model3d.Coord3D
 	SampleLoop:
 		for {
