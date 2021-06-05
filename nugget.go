@@ -11,7 +11,7 @@ import (
 
 const (
 	NuggetRounding     = 0.1
-	NuggetCrumbRadius  = 0.02
+	NuggetCrumbRadius  = 0.03
 	NuggetCrumbEpsilon = 0.01
 	NuggetCrumbMinDist = NuggetCrumbRadius / 2
 )

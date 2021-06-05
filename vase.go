@@ -51,10 +51,16 @@ func NewVase() *Vase {
 
 func (v *Vase) Color(c model3d.Coord3D) render3d.Color {
 	if c.XY().Norm() <= v.holeRadius && math.Abs(c.Z-VaseHoleZ) < VaseColorEpsilon {
-		// Dirt color.
+		// Dirt color, probably never really used.
 		return render3d.NewColorRGB(0.29, 0.23, 0.0)
 	} else {
-		// Clay color.
-		return render3d.NewColorRGB(0.74, 0.38, 0.26)
+		// Vase color.
+		frac := math.Mod((math.Atan2(c.X, c.Y)+math.Pi+c.Z*2)/math.Pi*3, 1.0)
+		if frac < 0.5 {
+			// Tiffany blue: #0abab5
+			return render3d.NewColorRGB(float64(0xa)/255, float64(0xba)/255, float64(0xb5)/255)
+		} else {
+			return render3d.NewColor(1.0)
+		}
 	}
 }

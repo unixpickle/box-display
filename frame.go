@@ -34,7 +34,7 @@ func NewFrame() Frame {
 func (f Frame) Color(c model3d.Coord3D) render3d.Color {
 	min, max := f.Min(), f.Max()
 	if math.Abs(model3d.NewRect(min, max).SDF(c)) < FrameColorEpsilon {
-		return render3d.NewColor(0.5)
+		return render3d.NewColorRGB(1.0, 0.84, 0.0)
 	}
 	if c.Z <= min.Z+FrameThickness+FrameColorEpsilon {
 		return render3d.NewColorRGB(0.1, 0.8, 0.1)

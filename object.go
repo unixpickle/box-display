@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	joinColorPrecDev  = 0.015
-	joinColorPrecProd = 0.05
+	joinColorPrecDev  = 0.02
+	joinColorPrecProd = 0.005
 )
 
 type Object interface {

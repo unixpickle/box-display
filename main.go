@@ -8,6 +8,8 @@ import (
 	"github.com/unixpickle/model3d/render3d"
 )
 
+// Set to true for high-resolution finished product.
+// For faster prototyping, set to false.
 const Production = false
 
 func main() {
