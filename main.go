@@ -19,6 +19,7 @@ func main() {
 			model3d.X(1.4),
 		),
 		Translate(NewSun(), model3d.XYZ(1.0, 0.6, 3.0)),
+		NewVase(),
 	)
 
 	log.Println("Creating mesh...")
