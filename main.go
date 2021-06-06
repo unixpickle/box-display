@@ -24,8 +24,8 @@ func main() {
 		),
 		Translate(NewSun(), model3d.XYZ(1.5, 0.6, 3.0)),
 		NewVase(),
-		Translate(NewCloud("models/cloud/cloud2.png"), model3d.XYZ(-1.5, 0.6, 3.2)),
-		Translate(NewCloud("models/cloud/cloud1.png"), model3d.XYZ(0.1, 0.6, 2.7)),
+		Translate(NewCloud("models/cloud/cloud2.png"), model3d.XYZ(-1.5, FrameBackDepth, 3.2)),
+		Translate(NewCloud("models/cloud/cloud1.png"), model3d.XYZ(0.1, FrameBackDepth, 2.7)),
 	)
 
 	log.Println("Creating mesh...")

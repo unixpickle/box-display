@@ -8,8 +8,12 @@ import (
 )
 
 const (
-	FrameThickness    = 0.2
+	FrameThickness    = 0.15
 	FrameColorEpsilon = 0.02
+	FrameWidth        = 2.3
+	FrameBackDepth    = 0.6
+	FrameFrontDepth   = 0.8
+	FrameHeight       = 3.8
 )
 
 type Frame struct {
@@ -20,12 +24,13 @@ func NewFrame() Frame {
 	return Frame{
 		Solid: &model3d.SubtractedSolid{
 			Positive: model3d.NewRect(
-				model3d.XYZ(-2.5, -0.8, -FrameThickness),
-				model3d.XYZ(2.5, 0.8, 4.0),
+				model3d.XYZ(-(FrameWidth+FrameThickness), -FrameFrontDepth, -FrameThickness),
+				model3d.XYZ(FrameWidth+FrameThickness, (FrameBackDepth+FrameThickness),
+					FrameHeight+FrameThickness),
 			),
 			Negative: model3d.NewRect(
-				model3d.XYZ(-2.5+FrameThickness, -0.81, 0.0),
-				model3d.XYZ(2.5-FrameThickness, 0.8-FrameThickness, 4.0-FrameThickness),
+				model3d.XYZ(-FrameWidth, -(FrameFrontDepth+0.01), 0.0),
+				model3d.XYZ(FrameWidth, FrameBackDepth, FrameHeight),
 			),
 		},
 	}
