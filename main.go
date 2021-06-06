@@ -15,15 +15,15 @@ const Production = false
 func main() {
 	log.Println("Creating object...")
 	obj := Join(
-		NewFlower(),
-		Translate(RotateZ(NewPenguin(), 0.1), model3d.X(-1.3)),
 		NewFrame(),
+		Translate(RotateZ(NewPenguin(), 0.1), model3d.X(-1.3)),
 		Translate(
 			RotateZ(Scale(Translate(NewNugget(), model3d.Z(0.05)), 1.4), -0.1),
 			model3d.X(1.4),
 		),
 		Translate(NewSun(), model3d.XYZ(1.5, 0.6, 3.0)),
 		NewVase(),
+		NewFlower(),
 		Translate(NewCloud("models/cloud/cloud2.png"), model3d.XYZ(-1.5, FrameBackDepth, 3.2)),
 		Translate(NewCloud("models/cloud/cloud1.png"), model3d.XYZ(0.1, FrameBackDepth, 2.7)),
 	)
