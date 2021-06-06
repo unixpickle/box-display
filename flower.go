@@ -38,8 +38,22 @@ func NewFlower() *Flower {
 		P2:     model3d.Z(1.55),
 		Radius: FlowerStemRadius,
 	}
+	thorn1 := model3d.Cone{
+		Base:   model3d.XZ(-0.05, 1.1),
+		Tip:    model3d.XZ(-0.2, 1.1),
+		Radius: 0.075,
+	}
+	thorn2 := model3d.Cone{
+		Base:   model3d.XZ(0.05, 1.3),
+		Tip:    model3d.XZ(0.2, 1.3),
+		Radius: 0.075,
+	}
 	stemCheck := stem
+	thorn1Check := thorn1
+	thorn2Check := thorn2
 	stemCheck.Radius += FlowerColorEpsilon
+	thorn1Check.Radius += FlowerColorEpsilon
+	thorn2Check.Radius += FlowerColorEpsilon
 	return &Flower{
 		Solid: model3d.JoinedSolid{
 			model3d.TransformSolid(
@@ -50,8 +64,10 @@ func NewFlower() *Flower {
 				pedals,
 			),
 			&stem,
+			&thorn1,
+			&thorn2,
 		},
-		stemCheck: &stemCheck,
+		stemCheck: model3d.JoinedSolid{&stemCheck, &thorn1Check, &thorn2Check},
 	}
 }
 
