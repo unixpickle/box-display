@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"math"
 
@@ -8,11 +9,12 @@ import (
 	"github.com/unixpickle/model3d/render3d"
 )
 
-// Set to true for high-resolution finished product.
-// For faster prototyping, set to false.
-const Production = false
+var Production = false
 
 func main() {
+	flag.BoolVar(&Production, "production", false, "produce higher quality models")
+	flag.Parse()
+
 	log.Println("Creating object...")
 	obj := Join(
 		NewFrame(),
